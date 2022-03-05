@@ -14,7 +14,7 @@ export default function HomePage(props) {
   )
 }
 
-export async function getStaticProps() {
+export async function getStaticProps(context) {
 
   const filePath = path.join(process.cwd(), 'data', 'dummy-backend.json') // cwd -> current working directory
   const jsonData = fs.readFileSync(filePath)
@@ -23,6 +23,9 @@ export async function getStaticProps() {
   return {
     props: {
       products: data.products,
-    }
+    },
+    // ISR
+    revalidate: 60  // to re generate the content
+                    // this will only take effect on prod
   }
 }
