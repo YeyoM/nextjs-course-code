@@ -1,6 +1,8 @@
 import fs from 'fs'
 import path from 'path'
 
+import Link from 'next/link'
+
 export default function HomePage(props) {
   
   const { products } = props
@@ -8,7 +10,7 @@ export default function HomePage(props) {
   return (
     <ul>
       {products.map(product => (
-        <li key={product.id}>{product.title}</li>
+        <li key={product.id}><Link href={`/single-products/${product.id}`}>{product.title}</Link></li>
       ))}
     </ul>
   )
