@@ -5,7 +5,24 @@ export default function LastSalesPage() {
 
   const [sales, setSales] = useState([])
   
-  const { data, error } = useSWR('https://nextjs-course-yeyo-default-rtdb.firebaseio.com/sales.json')
+  const fetcher = url => fetch(url).then(r => r.json())
+
+  const { data, error } = useSWR('https://nextjs-course-yeyo-default-rtdb.firebaseio.com/sales.json', fetcher);
+
+
+  useEffect(() => {
+    if (data) {
+      const transformedSales = []
+      for(const key in data) {
+        transformedSales.push({
+          id: key,
+          username: data[key].username,
+          volume: data[key].volume
+        })
+      }
+      setSales(transformedSales)
+    }
+  }, [data])
 
   if (error) {
     return <p>Failed to load</p>
@@ -15,19 +32,7 @@ export default function LastSalesPage() {
     return <p>Loading...</p>
   }
 
-  useEffect(() => {
-    if (data) {
-      const transformedSales = []
-      for(const key in data) {
-        transformedSales.push({
-          id: Key,
-          username: data[key].username,
-          volume: data[key].volume
-        })
-      }
-      setSales(transformedSales)
-    }
-  }, [])
+  console.log(data)
 
   return (
     <Fragment>
